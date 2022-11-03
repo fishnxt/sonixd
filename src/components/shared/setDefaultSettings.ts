@@ -76,6 +76,14 @@ const setDefaultSettings = (force: boolean) => {
     settings.setSync('dynamicBackground', false);
   }
 
+  if (force || !settings.hasSync('retainWindowSize')) {
+    settings.setSync('retainWindowSize', false);
+  }
+
+  if (force || !settings.hasSync('savedWindowSize')) {
+    settings.setSync('savedWindowSize', [1920, 1080]);
+  }
+
   if (force || !settings.hasSync('highlightOnRowHover')) {
     settings.setSync('highlightOnRowHover', true);
   }

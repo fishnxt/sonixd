@@ -421,10 +421,19 @@ const createWindow = async () => {
     await installExtensions();
   }
 
+  let windowDimensions = [];
+
+  // If retained window size is enabled, use saved dimensions
+  if (settings.getSync('retainWindowSize')) {
+    windowDimensions = settings.getSync('savedWindowSize');
+  } else {
+    windowDimensions = [1024, 728];
+  }
+
   mainWindow = new BrowserWindow({
     show: false,
-    width: 1024,
-    height: 728,
+    width: windowDimensions[0],
+    height: windowDimensions[1],
     icon: getAssetPath('icon.png'),
     webPreferences: {
       nodeIntegration: true,
@@ -551,6 +560,12 @@ const createWindow = async () => {
     if (!exitFromTray && store.getState().config.window.exitToTray) {
       event.preventDefault();
       mainWindow.hide();
+    }
+
+    // If retain window size is enabled, save the dimensions
+    if (settings.getSync('retainWindowSize')) {
+      const curSize = mainWindow.getSize();
+      settings.setSync('savedWindowSize', [curSize[0], curSize[1]]);
     }
 
     // If we have enabled saving the queue, we need to defer closing the main window until it has finished saving.
