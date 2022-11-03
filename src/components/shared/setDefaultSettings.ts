@@ -80,8 +80,16 @@ const setDefaultSettings = (force: boolean) => {
     settings.setSync('retainWindowSize', false);
   }
 
+  if (force || !settings.hasSync('defaultWindowX')) {
+    settings.setSync('defaultWindowX', 1024);
+  }
+
+  if (force || !settings.hasSync('defaultWindowY')) {
+    settings.setSync('defaultWindowY', 728);
+  }
+
   if (force || !settings.hasSync('savedWindowSize')) {
-    settings.setSync('savedWindowSize', [1920, 1080]);
+    settings.setSync('savedWindowSize', [1024, 728]);
   }
 
   if (force || !settings.hasSync('highlightOnRowHover')) {
